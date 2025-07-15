@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Akun SENA</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: #5D4037;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFCC80 100%);
+            padding: 20px 0;
+        }
+        
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background-color: #FDF5E6;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(139, 69, 19, 0.15);
+            position: relative;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FF8F00 0%, #D84315 50%, #5D4037 100%);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #FF8F00 0%, #FF6F00 50%, #E65100 100%);
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 150px;
+            height: 150px;
+            background: rgba(139, 69, 19, 0.1);
+            border-radius: 50%;
+        }
+        
+        .logo-text {
+            color: #ffffff;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(139, 69, 19, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .tagline {
+            color: #FFF3E0;
+            font-size: 16px;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(139, 69, 19, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .content {
+            padding: 50px 40px;
+            background: #FDF5E6;
+        }
+        
+        .greeting {
+            font-size: 24px;
+            font-weight: 700;
+            color: #D84315;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .message {
+            font-size: 17px;
+            color: #5D4037;
+            margin-bottom: 35px;
+            line-height: 1.8;
+            text-align: center;
+        }
+        
+        .cta-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF8F00 0%, #E65100 100%);
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 17px;
+            box-shadow: 0 8px 25px rgba(255, 143, 0, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .alternative-link {
+            background: linear-gradient(135deg, #F5F0E8 0%, #F0E6D2 100%);
+            border: 2px solid #D4A574;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 35px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .alternative-link::before {
+            content: '🔗';
+            font-size: 24px;
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FDF5E6;
+            padding: 0 10px;
+        }
+        
+        .alternative-link p {
+            font-size: 15px;
+            color: #5D4037;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .alternative-link code {
+            background: #FFFFFF;
+            border: 2px solid #D4A574;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 13px;
+            color: #D84315;
+            word-break: break-all;
+            display: inline-block;
+            max-width: 100%;
+            box-shadow: 0 2px 8px rgba(212, 165, 116, 0.2);
+        }
+        
+        .security-note {
+            background: linear-gradient(135deg, #F0E6D2 0%, #E6D7C3 100%);
+            border-left: 6px solid #FF8F00;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 35px 0;
+            position: relative;
+        }
+        
+        .security-note::before {
+            content: '🔒';
+            font-size: 20px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .security-note h4 {
+            color: #E65100;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .security-note p {
+            color: #5D4037;
+            font-size: 15px;
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            background: linear-gradient(135deg, #5D4037 0%, #3E2723 100%);
+            padding: 40px;
+            text-align: center;
+            color: #FFFFFF;
+            position: relative;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FF8F00 0%, #FFB74D 100%);
+        }
+        
+        .footer p {
+            font-size: 15px;
+            color: #FFCC80;
+            margin: 10px 0;
+        }
+        
+        .footer strong {
+            color: #FFFFFF;
+            font-size: 18px;
+        }
+        
+        .footer a {
+            color: #FFB74D;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer a:hover {
+            color: #FF8F00;
+        }
+        
+        .social-links {
+            margin: 25px 0;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 183, 77, 0.3);
+            border-bottom: 1px solid rgba(255, 183, 77, 0.3);
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            color: #FFB74D;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .decorative-elements {
+            position: relative;
+            height: 30px;
+            background: linear-gradient(90deg, 
+                #FF8F00 0%, 
+                #FFB74D 25%, 
+                #FDF5E6 50%, 
+                #FFB74D 75%, 
+                #FF8F00 100%);
+            opacity: 0.1;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            body {
+                padding: 10px 0;
+            }
+            
+            .container {
+                margin: 0 10px;
+                border-radius: 15px;
+            }
+            
+            .header, .content, .footer {
+                padding: 30px 25px;
+            }
+            
+            .logo-text {
+                font-size: 28px;
+            }
+            
+            .greeting {
+                font-size: 20px;
+            }
+            
+            .message {
+                font-size: 16px;
+            }
+            
+            .cta-button {
+                padding: 16px 32px;
+                font-size: 16px;
+            }
+            
+            .alternative-link, .security-note {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-text">SENA</div>
+            <div class="tagline">System Engineering Network Assistant</div>
+        </div>
+        
+        <div class="decorative-elements"></div>
+        
+        <div class="content">
+            <div class="greeting">Selamat datang di SENA! 🎉</div>
+            
+            <div class="message">
+                Terima kasih telah bergabung dengan platform SENA. Untuk menyelesaikan pendaftaran dan mengaktifkan akun Anda, silakan verifikasi alamat email dengan mengklik tombol di bawah ini.
+            </div>
+            
+            <div class="cta-container">
+                <a href="{{ verify_url }}" class="cta-button">✨ Verifikasi Akun Saya</a>
+            </div>
+            
+            <div class="alternative-link">
+                <p>Jika tombol di atas tidak berfungsi, salin dan tempel URL berikut ke browser Anda:</p>
+                <code>{{ verify_url }}</code>
+            </div>
+            
+            <div class="security-note">
+                <h4>Keamanan Akun</h4>
+                <p>Link verifikasi ini akan kedaluwarsa dalam 15 menit untuk menjaga keamanan akun Anda. Jika Anda tidak meminta verifikasi ini, abaikan email ini dengan aman.</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>SENA Team</strong></p>
+            <p>Email ini dikirim secara otomatis, mohon tidak membalas email ini.</p>
+            <div class="social-links">
+                <a href="#">🆘 Bantuan</a> • 
+                <a href="#">🔒 Kebijakan Privasi</a> • 
+                <a href="#">📋 Syarat & Ketentuan</a>
+            </div>
+            <p>© 2024 SENA. Semua hak dilindungi.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,588 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENA - Security Engineering Network Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Typing cursor animation */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+            color: #3b82f6;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Background gradients */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* Glass morphism effect */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Enhanced team card hover effects */
+        .team-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(59, 130, 246, 0.3);
+        }
+        
+        /* Floating animation */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Enhanced fade-in animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-up.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .fade-in-up.fade-out {
+            opacity: 0.3;
+            transform: translateY(20px);
+        }
+        
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-left.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .fade-in-left.fade-out {
+            opacity: 0.3;
+            transform: translateX(-20px);
+        }
+        
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-right.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .fade-in-right.fade-out {
+            opacity: 0.3;
+            transform: translateX(20px);
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in.animate {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .fade-in.fade-out {
+            opacity: 0.3;
+            transform: scale(0.95);
+        }
+        
+        /* Staggered animation delays */
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+        
+        /* Pulse button animation */
+        .pulse-button {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        /* Placeholder for images */
+        .placeholder-image {
+            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 2rem;
+        }
+
+        /* Hero pattern */
+        .hero-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0);
+            background-size: 20px 20px;
+        }
+        
+        /* Statistics counter animation */
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        /* Navbar scroll effect */
+        .navbar-scrolled {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Enhanced Navbar -->
+<nav class="bg-white/10 backdrop-blur-md border-b border-white/20 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <img src="/static/images/sena.jpg" alt="SENA Logo" class="logo-img" style="width: 70px; height: 70px; border-radius: 12px; object-fit: contain;">
+            </div>
+            
+            <!-- Navigation Links -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="text-white hover:text-blue-400 transition-colors">Home</a>
+                <a href="#about" class="text-white hover:text-blue-400 transition-colors">About Us</a>
+                <a href="#team" class="text-white hover:text-blue-400 transition-colors">Our Team</a>
+                <a href="#contact" class="text-white hover:text-blue-400 transition-colors">Mini Sena</a>
+            </div>
+            
+            <!-- Auth Buttons -->
+            <div class="flex items-center space-x-4">
+                <a href="/login" class="text-white hover:text-blue-400 transition-colors">Login</a>
+                <a href="/register" class="bg-white text-blue-600 px-6 py-2 rounded-lg hover:bg-blue-100 transition-colors font-medium">Register</a>
+            </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Enhanced Hero Section -->
+    <section id="home" class="gradient-bg hero-pattern min-h-screen flex items-center pt-20">
+        <div class="container mx-auto px-6 text-center">
+            <div class="max-w-4xl mx-auto fade-in-up">
+                <div class="space-y-6">
+                    <h1 class="text-5xl md:text-7xl font-bold">
+                        <span id="typing-text" class="typing-cursor"></span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto fade-in-up stagger-1">
+                        Powerful Python-Based Port Scanning Tools for Cyber Security Engineering with Advanced Technology
+                    </p>
+                    <div class="flex space-x-4 justify-center mt-12 fade-in-up stagger-2">
+                        <a href="/register" class="px-10 py-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 text-lg font-semibold">
+                            Get Started
+                        </a>
+                        <a href="/projectkedepan" class="px-10 py-4 border border-white/30 text-white rounded-lg hover:bg-white/10 transition-all duration-300 text-lg">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enhanced scroll indicator -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce fade-in-up stagger-3">
+                <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+                    <div class="w-1 h-2 bg-white/50 rounded-full mt-2 animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced About Section -->
+    <section id="about" class="py-20 bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- Logo Section -->
+                <div class="text-center fade-in-left">
+                    <div class="mb-8 floating">
+                        <div class="w-64 h-64 mx-auto bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20 flex items-center justify-center p-6">
+                            <img src="/static/images/sena.jpg" alt="SENA Logo" class="w-full h-full object-cover rounded-2xl">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About Content -->
+                <div class="fade-in-right">
+                    <h2 class="text-4xl font-bold mb-6 text-blue-400">About SENA</h2>
+                    <div class="space-y-6">
+                        <p class="text-gray-300 leading-relaxed text-lg fade-in-right stagger-1">
+                            SENA adalah platform inovatif untuk pengelolaan keamanan jaringan dengan teknologi AI terdepan. 
+                            Kami membantu mengidentifikasi dan mengatasi ancaman keamanan secara real-time dengan akurasi tinggi.
+                        </p>
+                        <p class="text-gray-300 leading-relaxed fade-in-right stagger-2">
+                            Dengan kombinasi machine learning dan expertise keamanan siber, SENA memberikan solusi komprehensif 
+                            untuk melindungi infrastruktur digital organisasi Anda dari berbagai jenis ancaman cyber.
+                        </p>
+                        
+                        <!-- Enhanced Statistics -->
+                        <div class="grid grid-cols-2 gap-6 mt-8">
+                            <div class="text-center p-6 glass-effect rounded-xl fade-in-up stagger-3 group hover:scale-105 transition-transform duration-300">
+                                <div class="text-3xl font-bold text-blue-400 mb-2 counter" data-target="99.9">0</div>
+                                <div class="text-gray-400">System Uptime (%)</div>
+                            </div>
+                            <div class="text-center p-6 glass-effect rounded-xl fade-in-up stagger-4 group hover:scale-105 transition-transform duration-300">
+                                <div class="text-3xl font-bold text-green-400 mb-2">24/7</div>
+                                <div class="text-gray-400">Real-time Monitoring</div>
+                            </div>
+                            <div class="text-center p-6 glass-effect rounded-xl fade-in-up stagger-5 group hover:scale-105 transition-transform duration-300">
+                                <div class="text-3xl font-bold text-purple-400 mb-2 counter" data-target="1000000">0</div>
+                                <div class="text-gray-400">Threats Detected</div>
+                            </div>
+                            <div class="text-center p-6 glass-effect rounded-xl fade-in-up stagger-6 group hover:scale-105 transition-transform duration-300">
+                                <div class="text-3xl font-bold text-yellow-400 mb-2">&lt;1s</div>
+                                <div class="text-gray-400">Response Time</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Team Section -->
+    <section id="team" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-4xl font-bold mb-4 text-blue-400">Our Team</h2>
+                <p class="text-gray-400 text-lg">Meet the brilliant minds behind SENA</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Team Member 1 -->
+                <div class="team-card glass-effect p-6 rounded-2xl text-center fade-in-up stagger-1">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-blue-400/30">
+                        <img src="/static/images/pais.jpg" alt="SJ" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Muhammad Rizqy Nur Faiz</h3>
+                    <p class="text-blue-400 mb-3">4332401026</p>
+                    <p class="text-gray-400 text-sm">Expert in network security and penetration testing</p>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="team-card glass-effect p-6 rounded-2xl text-center fade-in-up stagger-2">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-green-400/30">
+                        <img src="/static/images/rejak.jpg" alt="SJ" class="w-full h-full object-cover">                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Muhammad Reza Pahlevi</h3>
+                    <p class="text-blue-400 mb-3">4332401020</p>
+                    <p class="text-gray-400 text-sm">Specializes in machine learning and threat detection</p>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="team-card glass-effect p-6 rounded-2xl text-center fade-in-up stagger-3">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-purple-400/30">
+                        <img src="/static/images/pika.jpg" alt="SJ" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Nursyafika Wahyuni</h3>
+                    <p class="text-blue-400 mb-3">4332401007</p>
+                    <p class="text-gray-400 text-sm">Designs scalable and secure system architectures</p>
+                </div>
+
+                <!-- Team Member 4 -->
+                <div class="team-card glass-effect p-6 rounded-2xl text-center fade-in-up stagger-4">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-yellow-400/30">
+                        <img src="/static/images/depi.jpg" alt="SJ" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Devi Natalya</h3>
+                    <p class="text-blue-400 mb-3">4332401002</p>
+                    <p class="text-gray-400 text-sm">Ensures seamless deployment and infrastructure</p>
+                </div>
+
+                <!-- Team Member 5 -->
+                <div class="team-card glass-effect p-6 rounded-2xl text-center fade-in-up stagger-5">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-red-400/30">
+                        <img src="/static/images/gina.jpg" alt="SJ" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Gina Thasyafiha</h3>
+                    <p class="text-blue-400 mb-3">4332401003</p>
+                    <p class="text-gray-400 text-sm">Develops robust and secure backend systems</p>
+                </div>
+
+                <!-- Team Member 6 -->
+                <div class="team-card glass-effect p-6 rounded-2xl text-center fade-in-up stagger-6">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-indigo-400/30">
+                        <div class="placeholder-image w-full h-full rounded-full text-lg">DPR</div>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Dwita Puspa Rini</h3>
+                    <p class="text-blue-400 mb-3">4332401019</p>
+                    <p class="text-gray-400 text-sm">Creates intuitive and responsive user interfaces</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Footer -->
+    <footer id="contact" class="bg-gray-900 py-12 border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="fade-in-up stagger-1">
+                    <h3 class="text-2xl font-bold text-blue-400 mb-4">SENA</h3>
+                    <p class="text-gray-400">Security Engineering Network Assistant - Powerful Port Scanning Tools.</p>
+                </div>
+                <div class="fade-in-up stagger-2">
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#home" class="hover:text-blue-400 transition-colors duration-300">Home</a></li>
+                        <li><a href="#about" class="hover:text-blue-400 transition-colors duration-300">About Us</a></li>
+                        <li><a href="#team" class="hover:text-blue-400 transition-colors duration-300">Our Team</a></li>
+                        <li><a href="#contact" class="hover:text-blue-400 transition-colors duration-300">Mini SENA</a></li>
+                    </ul>
+                </div>
+                <div class="fade-in-up stagger-3">
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-blue-400 transition-colors duration-300">Port Scanning Tools</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors duration-300">History of Port Scanning</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors duration-300">Lookup IP Address/Domain</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors duration-300">Chatbot AI Analysist</a></li>
+                    </ul>
+                </div>
+                <div class="fade-in-up stagger-4">
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>Email: mhdrezaphlv25@gmail.com</li>
+                        <li>Phone: +62 895-7069-41155</li>
+                        <li>Address: Batam, Indonesia</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 fade-in-up stagger-5">
+                <p>&copy; 2025 SENA. All rights reserved. Built with ❤️ for better security.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced typing effect
+        const texts = [
+            "Welcome to SENA! ",
+            "Security Engineering Network Assistant"
+        ];
+        
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100;
+        
+        function typeText() {
+            const currentText = texts[textIndex];
+            const typingElement = document.getElementById('typing-text');
+            
+            if (isDeleting) {
+                typingElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 50;
+            } else {
+                typingElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 100;
+            }
+            
+            if (!isDeleting && charIndex === currentText.length) {
+                setTimeout(() => {
+                    isDeleting = true;
+                }, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+            
+            setTimeout(typeText, typingSpeed);
+        }
+        
+        // FIXED: Setup navigation buttons for Flask routes
+        function setupNavigationButtons() {
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            
+            // Login button click handler - menggunakan Flask route
+            loginBtn.addEventListener('click', () => {
+                window.location.href = '/login';  // Flask route, bukan login.html
+            });
+            
+            // Register button click handler - menggunakan Flask route
+            registerBtn.addEventListener('click', () => {
+                window.location.href = '/register';  // Flask route, bukan register.html
+            });
+        }
+        
+        // Start typing effect when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            typeText();
+            
+            // Initialize animations
+            initializeAnimations();
+            
+            // Start counter animations for statistics
+            animateCounters();
+            
+            // Setup navigation buttons
+            setupNavigationButtons();
+        });
+        
+        // Enhanced smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Enhanced scroll animations
+        function initializeAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Element is entering viewport
+                        entry.target.classList.add('animate');
+                        entry.target.classList.remove('fade-out');
+                        
+                        // For staggered animations, add delay based on class
+                        const staggerClass = Array.from(entry.target.classList).find(cls => cls.startsWith('stagger-'));
+                        if (staggerClass) {
+                            const delay = parseInt(staggerClass.split('-')[1]) * 100;
+                            setTimeout(() => {
+                                entry.target.classList.add('animate');
+                                entry.target.classList.remove('fade-out');
+                            }, delay);
+                        }
+                    } else {
+                        // Element is leaving viewport (scrolling up)
+                        const rect = entry.boundingClientRect;
+                        const isScrollingUp = rect.bottom < 0;
+                        
+                        if (isScrollingUp) {
+                            entry.target.classList.remove('animate');
+                            entry.target.classList.add('fade-out');
+                        }
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all animation elements
+            document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // Counter animation for statistics
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = parseFloat(counter.getAttribute('data-target'));
+                        const duration = 2000; // 2 seconds
+                        const increment = target / (duration / 16); // 60fps
+                        
+                        let current = 0;
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current < target) {
+                                if (target > 1000000) {
+                                    counter.textContent = (current / 1000000).toFixed(1) + 'M+';
+                                } else {
+                                    counter.textContent = Math.floor(current).toFixed(1);
+                                }
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                if (target > 1000000) {
+                                    counter.textContent = (target / 1000000).toFixed(0) + 'M+';
+                                } else {
+                                    counter.textContent = target.toString();
+                                }
+                            }
+                        };
+                        
+                        updateCounter();
+                        counterObserver.unobserve(counter);
+                    }
+                });
+            }, { threshold: 0.7 });
+            
+            counters.forEach(counter => {
+                counterObserver.observe(counter);
+            });
+        }
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+        
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            const hero = document.getElementById('home');
+            if (hero) {
+                hero.style.transform = `translateY(${rate}px)`;
+            }
+        });
+    </script>
+</body>
+</html>

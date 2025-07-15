@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENA - Verifikasi Akun</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 25%, #dc2626 50%, #7c2d12 75%, #451a03 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .logo-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            object-fit: contain;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(249, 115, 22, 0.3);
+            border-radius: 50%;
+            border-top-color: #f97316;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            animation: successPulse 2s infinite;
+        }
+        
+        .error-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+            animation: errorPulse 2s infinite;
+        }
+        
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes errorPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ea580c, #dc2626);
+        }
+
+        .verification-container {
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #f97316;
+            border-radius: 50%;
+            animation: particle 3s linear infinite;
+        }
+        
+        @keyframes particle {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg">
+    <!-- Navbar -->
+    <nav class="bg-white/10 backdrop-blur-md border-b border-white/20 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <img src="/static/images/sena.jpg" alt="SENA Logo" class="logo-img">
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="text-white hover:text-orange-200 transition-colors">Home</a>
+                    <a href="/#about" class="text-white hover:text-orange-200 transition-colors">About Us</a>
+                    <a href="/#team" class="text-white hover:text-orange-200 transition-colors">Our Team</a>
+                    <a href="/#contact" class="text-white hover:text-orange-200 transition-colors">Mini Sena</a>
+                </div>
+                
+                <!-- Auth Buttons -->
+                <div class="flex items-center space-x-4">
+                    <a href="/login" class="text-white hover:text-orange-200 transition-colors">Login</a>
+                    <a href="/register" class="bg-white text-orange-600 px-6 py-2 rounded-lg hover:bg-orange-50 transition-colors font-medium">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl w-full">
+            <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden fade-in">
+                <div class="bg-white p-12">
+                    
+                    <!-- Loading State -->
+                    <div id="loadingState" class="verification-container text-center">
+                        <div class="floating mb-6">
+                            <div class="loading-spinner mx-auto"></div>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Memverifikasi Akun Anda...</h2>
+                        <p class="text-gray-600">Mohon tunggu sebentar, kami sedang memproses verifikasi akun Anda.</p>
+                    </div>
+
+                    <!-- Success State -->
+                    <div id="successState" class="verification-container text-center hidden">
+                        <div class="mb-6">
+                            <div class="success-icon mx-auto">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                        <h2 class="text-3xl font-bold text-green-600 mb-4">Verifikasi Berhasil!</h2>
+                        <p class="text-gray-600 mb-8">Selamat! Akun SENA Anda telah berhasil diverifikasi. Anda sekarang dapat login dan menikmati semua fitur yang tersedia.</p>
+                        <div class="space-y-4">
+                            <a href="/login" class="btn-primary text-white px-8 py-3 rounded-lg hover:shadow-lg transition-all font-medium inline-flex items-center">
+                                <i class="fas fa-sign-in-alt mr-2"></i>
+                                Login Sekarang
+                            </a>
+                            <div>
+                                <a href="/" class="text-orange-600 hover:text-orange-700 transition-colors">
+                                    Kembali ke Beranda
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Error State -->
+                    <div id="errorState" class="verification-container text-center hidden">
+                        <div class="mb-6">
+                            <div class="error-icon mx-auto">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        </div>
+                        <h2 class="text-3xl font-bold text-red-600 mb-4">Verifikasi Gagal!</h2>
+                        <p id="errorMessage" class="text-gray-600 mb-8">Token verifikasi tidak valid atau sudah kadaluarsa. Silakan coba registrasi ulang atau hubungi support.</p>
+                        <div class="space-y-4">
+                            <a href="/register" class="btn-primary text-white px-8 py-3 rounded-lg hover:shadow-lg transition-all font-medium inline-flex items-center">
+                                <i class="fas fa-user-plus mr-2"></i>
+                                Daftar Ulang
+                            </a>
+                            <div class="flex justify-center space-x-4 text-sm">
+                                <a href="/login" class="text-orange-600 hover:text-orange-700 transition-colors">
+                                    Coba Login
+                                </a>
+                                <span class="text-gray-300">|</span>
+                                <a href="/" class="text-orange-600 hover:text-orange-700 transition-colors">
+                                    Kembali ke Beranda
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Already Verified State -->
+                    <div id="alreadyVerifiedState" class="verification-container text-center hidden">
+                        <div class="mb-6">
+                            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full">
+                                <i class="fas fa-info-circle text-3xl text-white"></i>
+                            </div>
+                        </div>
+                        <h2 class="text-3xl font-bold text-blue-600 mb-4">Akun Sudah Terverifikasi</h2>
+                        <p class="text-gray-600 mb-8">Akun Anda sudah berhasil diverifikasi sebelumnya. Anda dapat langsung login untuk mengakses semua fitur SENA.</p>
+                        <div class="space-y-4">
+                            <a href="/login" class="btn-primary text-white px-8 py-3 rounded-lg hover:shadow-lg transition-all font-medium inline-flex items-center">
+                                <i class="fas fa-sign-in-alt mr-2"></i>
+                                Login Sekarang
+                            </a>
+                            <div>
+                                <a href="/" class="text-orange-600 hover:text-orange-700 transition-colors">
+                                    Kembali ke Beranda
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Particles Animation -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+                <div class="particle" style="left: 20%; animation-delay: 0.5s;"></div>
+                <div class="particle" style="left: 30%; animation-delay: 1s;"></div>
+                <div class="particle" style="left: 70%; animation-delay: 1.5s;"></div>
+                <div class="particle" style="left: 80%; animation-delay: 2s;"></div>
+                <div class="particle" style="left: 90%; animation-delay: 2.5s;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Base URL
+        const API_BASE_URL = 'http://localhost:5000/api/auth';
+
+        // Get token from URL parameter
+        function getTokenFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('token');
+        }
+
+        // Show specific state
+        function showState(state) {
+            // Hide all states
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('successState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('alreadyVerifiedState').classList.add('hidden');
+            
+            // Show target state
+            document.getElementById(state).classList.remove('hidden');
+        }
+
+        // Verify account function
+        async function verifyAccount() {
+            const token = getTokenFromURL();
+            
+            // Check if token exists
+            if (!token) {
+                document.getElementById('errorMessage').textContent = 'Token verifikasi tidak ditemukan dalam URL. Pastikan Anda mengklik link yang benar dari email.';
+                showState('errorState');
+                return;
+            }
+
+            try {
+                // Call verification API
+                const response = await fetch(`${API_BASE_URL}/verify?token=${token}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+
+                // Handle response
+                if (response.ok) {
+                    // Success
+                    showState('successState');
+                } else {
+                    // Handle different error cases
+                    if (response.status === 400) {
+                        if (data.message.includes('sudah terverifikasi')) {
+                            showState('alreadyVerifiedState');
+                        } else {
+                            document.getElementById('errorMessage').textContent = data.message;
+                            showState('errorState');
+                        }
+                    } else if (response.status === 429) {
+                        document.getElementById('errorMessage').textContent = 'Terlalu banyak percobaan verifikasi. Silakan tunggu beberapa saat dan coba lagi.';
+                        showState('errorState');
+                    } else {
+                        document.getElementById('errorMessage').textContent = data.message || 'Terjadi kesalahan saat verifikasi. Silakan coba lagi.';
+                        showState('errorState');
+                    }
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                document.getElementById('errorMessage').textContent = 'Terjadi kesalahan koneksi. Pastikan server backend berjalan dan coba lagi.';
+                showState('errorState');
+            }
+        }
+
+        // Auto-verify when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add a small delay to show loading animation
+            setTimeout(() => {
+                verifyAccount();
+            }, 1500);
+        });
+
+        // Handle browser back/forward navigation
+        window.addEventListener('popstate', () => {
+            verifyAccount();
+        });
+    </script>
+</body>
+</html>
