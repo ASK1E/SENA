@@ -212,7 +212,7 @@ class PortTraversal:
                 priority_groups[priority] = []
             priority_groups[priority].append(port)
         
-        # Add ports to queue in priority order (highest first)
+        # BFS: Add ports to queue in priority order (highest first)
         for priority in sorted(priority_groups.keys(), reverse=True):
             ports = priority_groups[priority]
             random.shuffle(ports)
@@ -496,15 +496,16 @@ def scan():
         # Initialize traversal
         traversal_obj = PortTraversal(start_port, end_port)
         
-        # Generate scan order based on traversal method
+        # Generate scan order based on traversal method - SEQUENTIAL REMOVED
         if traversal == "bfs":
             scan_order = traversal_obj.bfs_traversal()
         elif traversal == "dfs":
             scan_order = traversal_obj.dfs_traversal()
         elif traversal == "adaptive":
             scan_order = traversal_obj.adaptive_traversal()
-        else:  # sequential
-            scan_order = list(range(start_port, end_port + 1))
+        else:  # default to bfs if invalid method provided
+            scan_order = traversal_obj.bfs_traversal()
+            traversal = "bfs"  # Update traversal name to reflect actual method used
 
         # Select scan function
         scan_func = scan_tcp
@@ -527,6 +528,10 @@ def scan():
 
         scan_end_time = datetime.now()
         scan_duration = (scan_end_time - scan_start_time).total_seconds()
+
+        # Ensure consistent results regardless of traversal method
+        open_ports.sort()  # Sort for consistency
+        port_details.sort(key=lambda x: x["port"])  # Sort by port number
 
         # Assess risk level
         risk_level = assess_risk_level(open_ports)
@@ -794,7 +799,8 @@ def test():
         "routes": [
             "scan", "history", "history/<scan_id>", 
             "history/clear", "stats", "export/pdf"
-        ]
+        ],
+        "available_traversal_methods": ["bfs", "dfs", "adaptive"]
     })
 
 @scanner_bp.route("/validate", methods=["POST"])
