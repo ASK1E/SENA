@@ -5,7 +5,9 @@ from config import Config
 from routes.auth_routes import auth_bp
 from routes.user_routes import user_bp
 from routes.template_route import template_bp
+from scanner.port_scanner import scanner_bp
 from extension import db, bcrypt, mail, jwt, limiter, jwt_blacklist
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -20,6 +22,7 @@ CORS(app)
 app.register_blueprint(auth_bp, url_prefix="/api/auth")
 app.register_blueprint(user_bp, url_prefix='/api/user')
 app.register_blueprint(template_bp, url_prefix='/')
+app.register_blueprint(scanner_bp)
 
 @app.errorhandler(RateLimitExceeded)
 def handle_limit(e):
